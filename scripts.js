@@ -39,6 +39,7 @@ console = (function () {
 
 /*
  Array Iterator
+ Node | Vanilla
  Breaks an array into chunks and then preforms a process for each chunk
  of the array. After preforming the task on a chunk it waits for the
  specified durration to pass before preforming the process on the next chunk.
@@ -88,3 +89,28 @@ console = (function () {
         });
     };
 }
+
+/*	
+	Delete Folder
+	Node
+	Deletes a specified folder in Node
+ */
+ const fs = require("fs");
+ function deleteFolder(path) {
+    try{
+        fs.statSync(path);
+    }catch(e){
+        console.log("Error deleting the specified path.");
+        return;
+    }
+    var items = fs.readdirSync(path);
+    items.forEach(function(file){
+      var currentDir = currentDir + "/" + file;
+      if(fs.statSync(currentDir).isDirectory()) { 
+        deleteFolder(currentDir);
+      } else { 
+        fs.unlinkSync(currentDir);
+      }
+    });
+    fs.rmdirSync(path);
+};
